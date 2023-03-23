@@ -53,9 +53,23 @@ app.listen(port, ()=>{
 
 app.get("/", (req, res)=>{
     // console.log(req.headers);
-    res.send("Hello");
+    var doc = `
+            <h1>User</h1>
+            <h2>1. Register</h2>
+            <h3>POST /api/user/register</h3>
+            <p><strong>Request Body : username, password, email, role, profile</strong></p>
+            <p><strong>Respone      : status, token, data</strong></p>
+        
+            <h2>2. Login</h2>
+            <h3>POST /api/user/register</h3>
+            <p><strong>Request Body : email, password</strong></p>
+            <p><strong>Respone      : status, token, data</strong></p>
+        
+    `;
+    res.send(doc);
 });
 
 require("./routes/userRoute")(app);
 require("./routes/provinceRoute")(app);
 require("./routes/tourRoute")(app);
+require("./routes/teamRoute")(app);

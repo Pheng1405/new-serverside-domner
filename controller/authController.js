@@ -42,12 +42,13 @@ exports.login = async (req, res, next) =>{
     if(verifyPassword){
         const token = signToken(user._id);
         res.status(200).json({
+            profile: user.imageUrl,
             id  : user._id,
             username: user.username,
             email: user.email,
             token : token,
-            isAdmin: user.isAdmin,
-            message : "Login Successful"
+            role: user.role,
+            message : "Login Successful"    
         });
     }
     else{

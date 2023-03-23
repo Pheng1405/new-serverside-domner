@@ -16,6 +16,10 @@ const provinceSchema = new mongoose.Schema({
         type: String,
         require: [true, "Image cover must not empty"]
     },
+    tour:{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Tour',
+    },
     images:{
         type: [String],
         default: null

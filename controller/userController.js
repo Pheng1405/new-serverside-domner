@@ -48,7 +48,10 @@ exports.updateProfile = async (req, res) =>{
     }
     // // console.log(token);
     if(!token){
-        return;
+        return res.status(498).json({
+            status : "failed",
+            message: "No Token"
+        });
     }
     // //2. Verification Token
     let decode;
@@ -58,7 +61,9 @@ exports.updateProfile = async (req, res) =>{
         uid = decode.id;
     }
     catch(err){
-        return;
+        return res.status(403).json({
+            message : `You don't have permission`
+        });
     }
 
     if(user._id != uid){

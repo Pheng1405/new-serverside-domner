@@ -75,18 +75,46 @@ exports.createProvince = async (req, res) =>{
 }
 
 exports.getAllProvince = async (req, res) =>{
-    const Provinces = await Province.find({});
-    res.status(200).json({
-        status : "success",
-        totalProvince : Provinces.length,
-        data: Provinces
-    });
+    const search = req.query.search || "";
+    const limit = Number(req.query.limit) || 10;
+    const page  = req.query.page || 1;
+    const startIndex = (page-1) * limit;
+    const endIndex = (page) * Number(limit);
+    const totalTour = await Province.find({name: { $regex: search, $options: "i"}}).countDocuments();
+    const totalPage = Math.ceil(totalTour/limit);
+    const pageItem  = [];
+    for(let i =1 ; i<= totalPage ; i++){
+        pageItem.push(i);
+    }
+    try{
+        const Provinces = await Province.find({name: { $regex: search, $options: "i"}})
+        .skip(startIndex)   
+        .limit(limit);
+
+        return res.status(200).json({
+            status: "success",
+            totalTour,
+            totalPage,
+            pageItem,
+            data : Provinces
+        });;
+        
+    }
+    catch(e){
+        return res.status(404).json({
+            status : "failed",
+            message : e
+        });
+    }
+    
+
+    
 }
 
 exports.getOneProvince = async (req, res) =>{
-    const id = req.params;
+    const id = req.params.id;
 
-    const province = await Province.findById({id});
+    const province = await Province.findById(id);
 
     if(province){
         res.status(200).json({

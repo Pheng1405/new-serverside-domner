@@ -25,6 +25,11 @@ const tourRoute = (app) =>{
                         authController.restrictTo("superAdmin"),
                         tourController.approveOneTour
     );
+    app.put("/api/declineTour/:id",
+                        authController.protect,
+                        authController.restrictTo("superAdmin"),
+                        tourController.declinedOneTour
+    );
 
     app.get("/api/tours", tourController.getAllTour);
     app.get("/api/tour/:id", tourController.getOneTour);
@@ -39,6 +44,13 @@ const tourRoute = (app) =>{
                             authController.restrictTo("superAdmin"),
                             tourController.publishedTour                     
     );
+
+    app.get("/api/tour/mytours/:adminId",
+                                authController.protect,
+                                authController.restrictTo("admin"),
+                                tourController.getMyTour    
+                                
+                            );
 
 }
 
